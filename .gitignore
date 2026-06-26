@@ -1,0 +1,4 @@
+Backend\__pycache__\
+Backend\venv\
+*db
+*.pyc
