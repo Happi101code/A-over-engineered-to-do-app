@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict
 from datetime import datetime, UTC
 from sqlalchemy import create_engine, Column, Integer, Boolean, String, DateTime
@@ -7,6 +8,14 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 DATABASE = "sqlite:///./tasks.db"
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 engine = create_engine(
     DATABASE,
@@ -43,7 +52,7 @@ def get_db():
     try:
         yield db
     finally:
-        db.close
+        db.close()
 
 @app.get("/tasks", response_model=list[Task])
 async def get_tasks(db:Session = Depends(get_db)):
