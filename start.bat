@@ -3,4 +3,4 @@ cd Backend
 call venv\Scripts\activate
 start cmd /k uvicorn main:app --reload
 cd ..\Frontend
-start http://localhost:3000
+python -m http.server 3000
